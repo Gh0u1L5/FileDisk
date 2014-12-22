@@ -1,0 +1,91 @@
+;
+; FileDisk.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=FileDisk.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+FileDisk.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%FileDisk.DeviceDesc%=FileDisk_Device, Root\FileDisk ; TODO: edit hw-id
+
+[FileDisk_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+FileDisk.sys
+
+;-------------- Service installation
+[FileDisk_Device.NT.Services]
+AddService = FileDisk,%SPSVCINST_ASSOCSERVICE%, FileDisk_Service_Inst
+
+; -------------- FileDisk driver install sections
+[FileDisk_Service_Inst]
+DisplayName    = %FileDisk.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\FileDisk.sys
+LoadOrderGroup = Extended Base
+
+;
+;--- FileDisk_Device Coinstaller installation ------
+;
+
+[DestinationDirs]
+FileDisk_Device_CoInstaller_CopyFiles = 11
+
+[FileDisk_Device.NT.CoInstallers]
+AddReg=FileDisk_Device_CoInstaller_AddReg
+CopyFiles=FileDisk_Device_CoInstaller_CopyFiles
+
+[FileDisk_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[FileDisk_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[SourceDisksFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+[FileDisk_Device.NT.Wdf]
+KmdfService =  FileDisk, FileDisk_wdfsect
+[FileDisk_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="" ; TODO: add ManufacturerName
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "FileDisk Installation Disk"
+FileDisk.DeviceDesc = "FileDisk Device"
+FileDisk.SVCDESC = "FileDisk Service"

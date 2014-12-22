@@ -1,0 +1,18 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FileDisk]
+
+"ErrorControl"=dword:00000001
+
+#
+# When to start the driver:
+#   At boot:  Start=1
+#   Manually: Start=3
+#
+"Start"=dword:00000001
+
+"Type"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FileDisk\Parameters]
+
+"NumberOfDevices"=dword:00000004
