@@ -1,5 +1,7 @@
 # FileDisk
 
+Thanks to Bo Brantén on https://www.acc.umu.se/~bosse/.
+
 ## What Did I Make?
 
 I wrote a disk encryption utility on Windows x86 platform with on-the-fly encryption, based on the open source project “File Disk”.
