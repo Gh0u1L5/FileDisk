@@ -1,5 +1,6 @@
 # FileDisk
-FileDisk is a virtual disk utility on Windows x86 platform with on-the-fly encryption. This project includes two components: a CLI control program and a filter driver.
+FileDisk is a virtual disk utility on Windows x86 platform with on-the-fly encryption written in C language.
+This project includes two components: a CLI control program and a filter driver.
 
 I wrote the project in a rush, so the cryptography algorithm is just XOR, but you can easily replace it with your own algorithm.
 
